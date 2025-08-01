@@ -52,9 +52,9 @@ uvx libresprite-mcp
             "libresprite": {
                 "type": "stdio",
                 "command": "uvx",
-    			"args": [
-    				"libresprite-mcp"
-    			]
+                "args": [
+                    "libresprite-mcp"
+                ]
             }
             // ...existing servers...
         }
