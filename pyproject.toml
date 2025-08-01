@@ -1,0 +1,20 @@
+[project]
+name = "libresprite-mcp"
+version = "0.1.0"
+description = "Prompt your way into LibreSprite"
+readme = "README.md"
+authors = [
+    { name = "Snehil Shah", email = "snehilshah.989@gmail.com" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "flask>=3.1.1",
+    "mcp[cli]>=1.12.2",
+]
+
+[project.scripts]
+libresprite-mcp = "libresprite_mcp:main"
+
+[build-system]
+requires = ["uv_build>=0.8.3,<0.9.0"]
+build-backend = "uv_build"
