@@ -7,7 +7,7 @@
 
 Model Context Protocol (MCP) server for prompt-assisted editing, designing, and scripting inside LibreSprite.
 
-https://raw.githubusercontent.com/Snehil-Shah/libresprite-mcp/main/assets/demo.mp4
+https://github.com/user-attachments/assets/71440bba-16a5-4ee2-af10-2c346978a290
 
 ## Prerequisites
 
