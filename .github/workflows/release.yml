@@ -1,0 +1,131 @@
+name: Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  pypi:
+    name: PyPI
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Set up Python
+        run: uv python install
+
+      - name: Build package
+        run: uv build
+
+      - name: Publish package
+        run: uv publish
+
+  github:
+    name: GitHub
+    runs-on: ubuntu-latest
+    needs: [pypi]
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Get version from pyproject.toml
+        id: version
+        run: |
+          VERSION=$(grep "^version" pyproject.toml | sed 's/version = "\(.*\)"/\1/')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Check if version exists
+        id: version_check
+        run: |
+          VERSION=${{ steps.version.outputs.version }}
+          if git tag | grep -q "v$VERSION"; then
+            echo "Version v$VERSION already exists, skipping release"
+            echo "should_release=false" >> $GITHUB_OUTPUT
+          else
+            echo "New version v$VERSION detected, proceeding with release"
+            echo "should_release=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Generate changelog
+        id: changelog
+        if: ${{ steps.version_check.outputs.should_release == 'true' }}
+        run: |
+          LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+
+          if [ -z "$LAST_TAG" ]; then
+            COMMITS=$(git log --pretty=format:"%s" --no-merges)
+          else
+            COMMITS=$(git log ${LAST_TAG}..HEAD --pretty=format:"%s" --no-merges)
+          fi
+
+          if [ -z "$COMMITS" ] || [ "$COMMITS" = "" ]; then
+            echo "No commits since last tag, trying to get commits from previous tag..."
+            PREV_TAG=$(git tag --sort=-version:refname | head -2 | tail -1)
+            echo "Previous tag: $PREV_TAG"
+            if [ -n "$PREV_TAG" ] && [ "$PREV_TAG" != "$LAST_TAG" ]; then
+              COMMITS=$(git log ${PREV_TAG}..HEAD --pretty=format:"%s" --no-merges)
+              echo "Commits since $PREV_TAG:"
+              echo "$COMMITS"
+            fi
+          fi
+
+          FEATURES=$(echo "$COMMITS" | grep -E "^feat" | sed 's/^/- /' || true)
+          FIXES=$(echo "$COMMITS" | grep -E "^fix" | sed 's/^/- /' || true)
+          CHORES=$(echo "$COMMITS" | grep -E "^chore" | sed 's/^/- /' || true)
+          BUILDS=$(echo "$COMMITS" | grep -E "^build" | sed 's/^/- /' || true)
+          DOCS=$(echo "$COMMITS" | grep -E "^docs" | sed 's/^/- /' || true)
+          TEST=$(echo "$COMMITS" | grep -E "^test" | sed 's/^/- /' || true)
+          OTHER_COMMITS=$(echo "$COMMITS" | grep -v -E "^(feat|fix|chore|build|docs|test)" | sed 's/^/- /' || true)
+
+          CHANGELOG=""
+          if [ -n "$FEATURES" ]; then
+            CHANGELOG="${CHANGELOG}### Features"$'\n'"$FEATURES"$'\n\n'
+          fi
+          if [ -n "$FIXES" ]; then
+            CHANGELOG="${CHANGELOG}### Bug Fixes"$'\n'"$FIXES"$'\n\n'
+          fi
+          if [ -n "$DOCS" ]; then
+            CHANGELOG="${CHANGELOG}### Documentation"$'\n'"$DOCS"$'\n\n'
+          fi
+          if [ -n "$TEST" ]; then
+            CHANGELOG="${CHANGELOG}### Tests"$'\n'"$TEST"$'\n\n'
+          fi
+          if [ -n "$CHORES" ] || [ -n "$BUILDS" ]; then
+            CHANGELOG="${CHANGELOG}### Maintenance"$'\n'
+            [ -n "$CHORES" ] && CHANGELOG="${CHANGELOG}$CHORES"$'\n'
+            [ -n "$BUILDS" ] && CHANGELOG="${CHANGELOG}$BUILDS"$'\n'
+          fi
+          if [ -n "$OTHER_COMMITS" ]; then
+            CHANGELOG="${CHANGELOG}### Other Changes"$'\n'"$OTHER_COMMITS"$'\n'
+          fi
+
+          {
+            echo "changelog<<EOF"
+            printf '%s' "$CHANGELOG"
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        if: ${{ steps.version_check.outputs.should_release == 'true' }}
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          name: v${{ steps.version.outputs.version }}
+          body: |
+            Release of `libresprite-mcp` version ${{ steps.version.outputs.version }}.
+
+            Find the official MCP distribution from [PyPI](https://pypi.org/project/libresprite-mcp/) and the remote script `mcp.js` attached to this release.
+
+            For the installation instructions, refer to the project [README](https://github.com/Snehil-Shah/libresprite-mcp/blob/main/README.md).
+
+            ## Changes
+            ${{ steps.changelog.outputs.changelog }}
+          files: remote/mcp.js
