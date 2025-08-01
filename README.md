@@ -62,10 +62,11 @@ uvx libresprite-mcp
     ```
 
     You can also use this fancy badge to make it quick:
-    [![Install MCP Server](https://cursor.com/deeplink/mcp-install-light.svg)](https://cursor.com/install-mcp?name=libresprite&config=JTdCJTIyY29tbWFuZCUyMiUzQSUyMnV2eCUyMGxpYnJlc3ByaXRlLW1jcCUyMiU3RA%3D%3D)
+  
+    [![Install MCP Server](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/install-mcp?name=libresprite&config=JTdCJTIyY29tbWFuZCUyMiUzQSUyMnV2eCUyMGxpYnJlc3ByaXRlLW1jcCUyMiU3RA%3D%3D)
 
-    > [!NOTE]
-    > You will have to restart Claude Desktop to load the MCP Server.
+> [!NOTE]
+> You will have to restart Claude Desktop to load the MCP Server.
 
 ### Step 2: Setting up LibreSprite
 
