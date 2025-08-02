@@ -3,6 +3,10 @@
 [![Install MCP Server](https://cursor.com/deeplink/mcp-install-light.svg)](https://cursor.com/install-mcp?name=libresprite&config=JTdCJTIyY29tbWFuZCUyMiUzQSUyMnV2eCUyMGxpYnJlc3ByaXRlLW1jcCUyMiU3RA%3D%3D)
 [![PyPI version](https://img.shields.io/pypi/v/libresprite-mcp)](https://pypi.org/project/libresprite-mcp/)
 
+<a href="https://glama.ai/mcp/servers/@Snehil-Shah/libresprite-mcp">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/@Snehil-Shah/libresprite-mcp/badge" alt="LibreSprite MCP server" />
+</a>
+
 > Prompt your way into LibreSprite
 
 Model Context Protocol (MCP) server for prompt-assisted editing, designing, and scripting inside LibreSprite.
