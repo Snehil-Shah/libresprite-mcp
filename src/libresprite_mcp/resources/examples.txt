@@ -1,6 +1,78 @@
 # Examples
 
-## Random
+## MCP Tool Examples
+
+These examples show how to use the abstracted MCP tools for common operations. These tools handle the JavaScript complexity for you.
+
+### Creating a New Sprite
+Use the `create_sprite` tool to quickly create a new sprite:
+- `create_sprite(width=64, height=64, color_mode="RGB")`
+- Creates a 64x64 RGB sprite
+
+### Adding a New Layer
+Use the `create_layer` tool to add layers:
+- `create_layer(name="Background Layer")`
+- Adds a new layer with the specified name
+
+### Switching Between Layers
+Use the `set_active_layer` tool to switch layers:
+- `set_active_layer(layer_number=1)`
+- Switches to layer 1 (0-based from bottom)
+
+### Filling a Layer with Color
+Use the `fill_layer` tool to fill the active layer:
+- `fill_layer(color_r=255, color_g=0, color_b=0, color_a=255)`
+- Fills the active layer with solid red
+
+### Drawing Shapes
+Use the drawing tools to create basic shapes:
+
+#### Circles
+- `draw_circle(center_x=32, center_y=32, radius=10, color_r=0, color_g=255, color_b=0, color_a=255, filled=true)`
+- Draws a filled green circle at center (32,32) with radius 10
+
+#### Rectangles
+- `draw_rectangle(x=10, y=10, width=40, height=20, color_r=255, color_g=0, color_b=0, color_a=255, filled=false)`
+- Draws a red rectangle outline
+
+#### Lines
+- `draw_line(x1=0, y1=0, x2=63, y2=63, color_r=0, color_g=0, color_b=255, color_a=255, thickness=2)`
+- Draws a diagonal blue line with thickness 2
+
+#### Ellipses
+- `draw_ellipse(center_x=32, center_y=32, width=50, height=30, color_r=255, color_g=255, color_b=0, color_a=255, filled=true)`
+- Draws a filled yellow ellipse
+
+### Pixel Operations
+Use pixel tools for precise control:
+
+#### Setting Individual Pixels
+- `put_pixel(x=50, y=50, color_r=255, color_g=0, color_b=0, color_a=255)`
+- Sets a single red pixel at (50,50)
+
+#### Flood Filling Areas
+- `flood_fill(x=32, y=32, color_r=0, color_g=255, color_b=0, color_a=255)`
+- Flood fills the area starting from (32,32) with green
+
+### Layer Management
+Use layer management tools for organizing your artwork:
+
+#### Managing Layers
+- `delete_layer(layer_number=1)`
+- Deletes layer 1
+
+### Color Replacement
+Use color tools to change existing artwork:
+
+#### Color Replacement
+- `replace_color(old_color_r=255, old_color_g=255, old_color_b=255, new_color_r=0, new_color_g=0, new_color_b=255, new_color_a=255)`
+- Replaces all white pixels with blue
+
+## JavaScript Examples
+
+These examples show direct JavaScript scripting for more complex operations.
+
+### Random
 
 ```javascript
 const col = app.pixelColor;
@@ -211,4 +283,212 @@ function onEvent(eventName) {
     if (typeof handler == 'function')
         handler();
 }
+```
+
+## Combined Workflow Examples
+
+These examples show how to combine MCP tools with JavaScript for complete workflows.
+
+### Creating a Sprite with Multiple Layers and Basic Shapes
+
+**Step 1: Use MCP tools for setup**
+```
+# Create the canvas
+create_sprite(width=128, height=128, color_mode="RGB")
+
+# Create layers
+create_layer(name="Background")
+create_layer(name="Shapes")
+create_layer(name="Details")
+```
+
+**Step 2: Work on background layer**
+```
+# Switch to background layer and fill with light blue
+set_active_layer(layer_number=0)
+fill_layer(color_r=173, color_g=216, color_b=230, color_a=255)
+```
+
+**Step 3: Add shapes on shapes layer**
+```
+# Switch to shapes layer
+set_active_layer(layer_number=1)
+
+# Draw various shapes
+draw_rectangle(x=20, y=20, width=40, height=30, color_r=255, color_g=0, color_b=0, color_a=255, filled=true)
+draw_circle(center_x=90, center_y=35, radius=15, color_r=0, color_g=255, color_b=0, color_a=255, filled=false)
+draw_ellipse(center_x=64, center_y=90, width=60, height=30, color_r=255, color_g=255, color_b=0, color_a=255, filled=true)
+draw_line(x1=10, y1=110, x2=118, y2=10, color_r=255, color_g=0, color_b=255, color_a=255, thickness=3)
+```
+
+**Step 4: Add details**
+```
+# Switch to details layer
+set_active_layer(layer_number=2)
+
+# Add some accent pixels
+put_pixel(x=40, y=35, color_r=255, color_g=255, color_b=255, color_a=255)
+put_pixel(x=90, y=35, color_r=0, color_g=0, color_b=0, color_a=255)
+
+# Check what we created
+get_sprite_info()
+```
+
+### Creating Pixel Art Character
+
+**Step 1: Setup with MCP tools**
+```
+create_sprite(width=32, height=32, color_mode="RGB")
+create_layer(name="Head")
+create_layer(name="Body")
+create_layer(name="Details")
+```
+
+**Step 2: Draw character head**
+```
+# Switch to head layer
+set_active_layer(layer_number=0)
+
+# Draw head (filled circle)
+draw_circle(center_x=16, center_y=12, radius=8, color_r=255, color_g=220, color_b=177, color_a=255, filled=true)
+```
+
+**Step 3: Draw body**
+```
+# Switch to body layer
+set_active_layer(layer_number=1)
+
+# Draw body (rectangle)
+draw_rectangle(x=12, y=18, width=8, height=12, color_r=0, color_g=100, color_b=200, color_a=255, filled=true)
+```
+
+**Step 4: Add facial features**
+```
+# Switch to details layer
+set_active_layer(layer_number=2)
+
+# Eyes
+put_pixel(x=13, y=10, color_r=0, color_g=0, color_b=0, color_a=255)
+put_pixel(x=19, y=10, color_r=0, color_g=0, color_b=0, color_a=255)
+
+# Mouth (small line)
+draw_line(x1=15, y1=14, x2=17, y2=14, color_r=255, color_g=0, color_b=0, color_a=255, thickness=1)
+```
+
+### Pattern Creation with Flood Fill
+
+**Step 1: Create base pattern**
+```
+create_sprite(width=64, height=64, color_mode="RGB")
+
+# Create a checkerboard pattern using rectangles
+draw_rectangle(x=0, y=0, width=32, height=32, color_r=255, color_g=255, color_b=255, color_a=255, filled=true)
+draw_rectangle(x=32, y=32, width=32, height=32, color_r=255, color_g=255, color_b=255, color_a=255, filled=true)
+```
+
+**Step 2: Add pattern elements with flood fill**
+```
+# Add some circular areas to flood fill
+draw_circle(center_x=16, center_y=16, radius=8, color_r=100, color_g=100, color_b=100, color_a=255, filled=false)
+draw_circle(center_x=48, center_y=48, radius=8, color_r=100, color_g=100, color_b=100, color_a=255, filled=false)
+
+# Flood fill the circles with different colors
+flood_fill(x=16, y=16, color_r=255, color_g=0, color_b=0, color_a=255)
+flood_fill(x=48, y=48, color_r=0, color_g=0, color_b=255, color_a=255)
+```
+
+### Geometric Art Creation
+
+**Step 1: Setup canvas**
+```
+create_sprite(width=100, height=100, color_mode="RGB")
+fill_layer(color_r=0, color_g=0, color_b=0, color_a=255)  # Black background
+```
+
+**Step 2: Create geometric pattern**
+```
+# Draw overlapping shapes with transparency
+draw_circle(center_x=30, center_y=30, radius=25, color_r=255, color_g=0, color_b=0, color_a=128, filled=true)
+draw_circle(center_x=70, center_y=30, radius=25, color_r=0, color_g=255, color_b=0, color_a=128, filled=true)
+draw_circle(center_x=50, center_y=60, radius=25, color_r=0, color_g=0, color_b=255, color_a=128, filled=true)
+
+# Add connecting lines
+draw_line(x1=30, y1=30, x2=70, y2=30, color_r=255, color_g=255, color_b=255, color_a=255, thickness=2)
+draw_line(x1=70, y1=30, x2=50, y2=60, color_r=255, color_g=255, color_b=255, color_a=255, thickness=2)
+draw_line(x1=50, y1=60, x2=30, y2=30, color_r=255, color_g=255, color_b=255, color_a=255, thickness=2)
+```
+
+### Pixel Art Icon Creation
+
+**Step 1: Setup small canvas for icon**
+```
+create_sprite(width=16, height=16, color_mode="RGB")
+fill_layer(color_r=240, color_g=240, color_b=240, color_a=255)  # Light gray background
+```
+
+**Step 2: Create simple house icon**
+```
+# House base
+draw_rectangle(x=4, y=8, width=8, height=6, color_r=139, color_g=69, color_b=19, color_a=255, filled=true)
+
+# Roof
+draw_line(x1=2, y1=8, x2=8, y2=4, color_r=165, color_g=42, color_b=42, color_a=255, thickness=1)
+draw_line(x1=8, y1=4, x2=14, y2=8, color_r=165, color_g=42, color_b=42, color_a=255, thickness=1)
+flood_fill(x=8, y=6, color_r=165, color_g=42, color_b=42, color_a=255)
+
+# Door
+draw_rectangle(x=6, y=10, width=2, height=4, color_r=101, color_g=67, color_b=33, color_a=255, filled=true)
+
+# Window
+put_pixel(x=9, y=10, color_r=135, color_g=206, color_b=235, color_a=255)
+put_pixel(x=10, y=10, color_r=135, color_g=206, color_b=235, color_a=255)
+put_pixel(x=9, y=11, color_r=135, color_g=206, color_b=235, color_a=255)
+put_pixel(x=10, y=11, color_r=135, color_g=206, color_b=235, color_a=255)
+```
+
+### Animation Setup
+
+**Step 1: Create sprite with MCP tools**
+```
+create_sprite(width=64, height=64, color_mode="RGB")
+create_layer(name="Animation Layer")
+```
+
+**Step 2: Create animation frames with JavaScript**
+```javascript
+// Create bouncing ball animation
+const sprite = app.activeSprite;
+const frameCount = 8;
+const col = app.pixelColor;
+
+app.command.setParameter("content", "current");
+for (let frame = 0; frame < frameCount; frame++) {
+    if (frame > 0) {
+        app.command.NewFrame();
+    }
+    
+    const layer = sprite.layer(0);
+    const img = layer.cel(frame).image;
+    
+    // Clear frame
+    img.clear(col.rgba(255, 255, 255, 0));
+    
+    // Calculate ball position (bouncing)
+    const y = Math.abs(Math.sin(frame / frameCount * Math.PI)) * 40 + 10;
+    
+    // Draw ball
+    for (let dy = -5; dy <= 5; dy++) {
+        for (let dx = -5; dx <= 5; dx++) {
+            if (dx*dx + dy*dy <= 25) { // Circle shape
+                const px = 32 + dx;
+                const py = y + dy;
+                if (px >= 0 && px < img.width && py >= 0 && py < img.height) {
+                    img.putPixel(px, py, col.rgba(255, 0, 0, 255));
+                }
+            }
+        }
+    }
+}
+app.command.clearParameters();
+console.log("Animation frames created");
 ```
