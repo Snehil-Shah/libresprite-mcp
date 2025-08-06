@@ -30,19 +30,6 @@ Adds a new layer to the active sprite.
 create_layer(name="Character Layer")
 ```
 
-## Tool: set_active_layer
-Switch to a specific layer.
-
-**Parameters:**
-- `layer_number` (int): Layer index (0-based from bottom)
-
-**Returns:** Confirmation message
-
-**Example Usage:**
-```
-set_active_layer(layer_number=1)
-```
-
 ## Tool: fill_layer
 Fill the active layer with a solid color.
 
@@ -253,7 +240,7 @@ run_script(script=script)
 - Simple shape drawing (circles, rectangles, lines, ellipses)
 - Single pixel operations
 - Quick color fills and flood fills
-- Layer management (switching, deleting)
+- Layer deletion
 - Color replacement throughout images
 - Getting sprite information
 - Repetitive, straightforward operations
@@ -269,6 +256,7 @@ run_script(script=script)
 - When you need access to the full LibreSprite API
 - Complex gradient effects or procedural generation
 - Text rendering with custom fonts
+- Working with specific layers (use `sprite.layer(layerNumber)` to get layer objects)
 - Advanced layer manipulation and reordering
 - Complex selection operations
 

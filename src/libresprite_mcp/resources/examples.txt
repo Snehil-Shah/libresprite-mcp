@@ -14,11 +14,6 @@ Use the `create_layer` tool to add layers:
 - `create_layer(name="Background Layer")`
 - Adds a new layer with the specified name
 
-### Switching Between Layers
-Use the `set_active_layer` tool to switch layers:
-- `set_active_layer(layer_number=1)`
-- Switches to layer 1 (0-based from bottom)
-
 ### Filling a Layer with Color
 Use the `fill_layer` tool to fill the active layer:
 - `fill_layer(color_r=255, color_g=0, color_b=0, color_a=255)`
@@ -304,17 +299,30 @@ create_layer(name="Details")
 
 **Step 2: Work on background layer**
 ```
-# Switch to background layer and fill with light blue
-set_active_layer(layer_number=0)
-fill_layer(color_r=173, color_g=216, color_b=230, color_a=255)
+# Work with background layer (layer 0) using JavaScript
+# Note: MCP tools work on the currently active layer, so we use JavaScript for layer-specific operations
+run_script(script='''
+const sprite = app.activeSprite;
+const layer = sprite.layer(0);
+const image = layer.cel(0).image;
+const col = app.pixelColor;
+image.clear(col.rgba(173, 216, 230, 255));
+console.log("Background layer filled with light blue");
+''')
 ```
 
 **Step 3: Add shapes on shapes layer**
 ```
-# Switch to shapes layer
-set_active_layer(layer_number=1)
+# Work with shapes layer (layer 1) - use MCP tools if it's the active layer
+# Or use JavaScript to work on specific layer
+run_script(script='''
+const sprite = app.activeSprite;
+const layer = sprite.layer(1);
+const image = layer.cel(0).image;
+console.log("Ready to draw on shapes layer");
+''')
 
-# Draw various shapes
+# Draw various shapes (these will work on the currently active layer)
 draw_rectangle(x=20, y=20, width=40, height=30, color_r=255, color_g=0, color_b=0, color_a=255, filled=true)
 draw_circle(center_x=90, center_y=35, radius=15, color_r=0, color_g=255, color_b=0, color_a=255, filled=false)
 draw_ellipse(center_x=64, center_y=90, width=60, height=30, color_r=255, color_g=255, color_b=0, color_a=255, filled=true)
@@ -323,12 +331,18 @@ draw_line(x1=10, y1=110, x2=118, y2=10, color_r=255, color_g=0, color_b=255, col
 
 **Step 4: Add details**
 ```
-# Switch to details layer
-set_active_layer(layer_number=2)
+# Work with details layer (layer 2) using pixel manipulation
+run_script(script='''
+const sprite = app.activeSprite;
+const layer = sprite.layer(2);
+const image = layer.cel(0).image;
+const col = app.pixelColor;
 
-# Add some accent pixels
-put_pixel(x=40, y=35, color_r=255, color_g=255, color_b=255, color_a=255)
-put_pixel(x=90, y=35, color_r=0, color_g=0, color_b=0, color_a=255)
+// Add accent pixels directly to this layer
+image.putPixel(40, 35, col.rgba(255, 255, 255, 255));
+image.putPixel(90, 35, col.rgba(0, 0, 0, 255));
+console.log("Details added to layer 2");
+''')
 
 # Check what we created
 get_sprite_info()
@@ -346,33 +360,66 @@ create_layer(name="Details")
 
 **Step 2: Draw character head**
 ```
-# Switch to head layer
-set_active_layer(layer_number=0)
+# Work with head layer (layer 0) using JavaScript
+run_script(script='''
+const sprite = app.activeSprite;
+const layer = sprite.layer(0);
+const image = layer.cel(0).image;
+const col = app.pixelColor;
 
-# Draw head (filled circle)
-draw_circle(center_x=16, center_y=12, radius=8, color_r=255, color_g=220, color_b=177, color_a=255, filled=true)
+// Draw head (filled circle) - simple circle drawing
+const centerX = 16, centerY = 12, radius = 8;
+const headColor = col.rgba(255, 220, 177, 255);
+for (let y = -radius; y <= radius; y++) {
+    for (let x = -radius; x <= radius; x++) {
+        if (x*x + y*y <= radius*radius) {
+            image.putPixel(centerX + x, centerY + y, headColor);
+        }
+    }
+}
+console.log("Head drawn on layer 0");
+''')
 ```
 
 **Step 3: Draw body**
 ```
-# Switch to body layer
-set_active_layer(layer_number=1)
+# Work with body layer (layer 1) using JavaScript  
+run_script(script='''
+const sprite = app.activeSprite;
+const layer = sprite.layer(1);
+const image = layer.cel(0).image;
+const col = app.pixelColor;
 
-# Draw body (rectangle)
-draw_rectangle(x=12, y=18, width=8, height=12, color_r=0, color_g=100, color_b=200, color_a=255, filled=true)
+// Draw body (rectangle)
+const bodyColor = col.rgba(0, 100, 200, 255);
+for (let y = 18; y < 30; y++) {
+    for (let x = 12; x < 20; x++) {
+        image.putPixel(x, y, bodyColor);
+    }
+}
+console.log("Body drawn on layer 1");
+''')
 ```
 
 **Step 4: Add facial features**
 ```
-# Switch to details layer
-set_active_layer(layer_number=2)
+# Work with details layer (layer 2) using JavaScript
+run_script(script='''
+const sprite = app.activeSprite;
+const layer = sprite.layer(2);
+const image = layer.cel(0).image;
+const col = app.pixelColor;
 
-# Eyes
-put_pixel(x=13, y=10, color_r=0, color_g=0, color_b=0, color_a=255)
-put_pixel(x=19, y=10, color_r=0, color_g=0, color_b=0, color_a=255)
+// Eyes
+image.putPixel(13, 10, col.rgba(0, 0, 0, 255));
+image.putPixel(19, 10, col.rgba(0, 0, 0, 255));
 
-# Mouth (small line)
-draw_line(x1=15, y1=14, x2=17, y2=14, color_r=255, color_g=0, color_b=0, color_a=255, thickness=1)
+// Mouth (small line)
+image.putPixel(15, 14, col.rgba(255, 0, 0, 255));
+image.putPixel(16, 14, col.rgba(255, 0, 0, 255));
+image.putPixel(17, 14, col.rgba(255, 0, 0, 255));
+console.log("Facial features added to layer 2");
+''')
 ```
 
 ### Pattern Creation with Flood Fill

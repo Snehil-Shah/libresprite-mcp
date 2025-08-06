@@ -249,20 +249,6 @@ class MCPServer:
             return self._libresprite_proxy.run_script(script, ctx)
 
         @self.mcp.tool()
-        def set_active_layer(layer_number: int, ctx: Context) -> str:
-            """
-            Switch to a specific layer.
-
-            Args:
-                layer_number: Layer index (0-based from bottom)
-
-            Returns:
-                Confirmation message
-            """
-            script = self.script_templates.set_active_layer(layer_number)
-            return self._libresprite_proxy.run_script(script, ctx)
-
-        @self.mcp.tool()
         def delete_layer(layer_number: int, ctx: Context) -> str:
             """
             Delete a layer.
@@ -275,8 +261,6 @@ class MCPServer:
             """
             script = self.script_templates.delete_layer(layer_number)
             return self._libresprite_proxy.run_script(script, ctx)
-
-
 
         @self.mcp.tool()
         def replace_color(old_color_r: int, old_color_g: int, old_color_b: int,
@@ -348,7 +332,6 @@ class MCPServer:
             SPRITE & LAYER MANAGEMENT:
             - create_sprite(width, height, color_mode) - CREATE NEW SPRITES  
             - create_layer(name) - ADD LAYERS
-            - set_active_layer(layer_number) - SWITCH TO SPECIFIC LAYER
             - delete_layer(layer_number) - DELETE LAYERS
             - get_sprite_info() - GET SPRITE DETAILS
 

@@ -531,44 +531,6 @@ try {{
 }}
 """
 
-    def set_active_layer(self, layer_number: int) -> str:
-        """
-        Generate script to switch to a specific layer.
-        
-        Args:
-            layer_number: Layer index (0-based from bottom)
-
-        Returns:
-            JavaScript script as a string
-        """
-        return f"""
-try {{
-    const sprite = app.activeSprite;
-    if (!sprite) {{
-        console.log('No active sprite');
-    }} else {{
-        const layerNumber = {layer_number};
-        
-        if (layerNumber >= 0 && layerNumber < sprite.layerCount) {{
-            // Use the GotoLayer command - this might not exist, so we'll use a workaround
-            // Since there's no direct layer switching in the API, we'll document the current layer
-            const layer = sprite.layer(layerNumber);
-            if (layer) {{
-                console.log('Switching to layer ' + layerNumber + ': "' + layer.name + '"');
-                console.log('Note: Layer switching via script may be limited. Use UI to switch layers.');
-                console.log('Current active layer: ' + app.activeLayerNumber);
-            }} else {{
-                console.log('Layer ' + layerNumber + ' not found');
-            }}
-        }} else {{
-            console.log('Layer number ' + layerNumber + ' is out of range (0-' + (sprite.layerCount - 1) + ')');
-        }}
-    }}
-}} catch (e) {{
-    console.log('Error switching layer: ' + e.message);
-}}
-"""
-
     def delete_layer(self, layer_number: int) -> str:
         """
         Generate script to delete a layer.
