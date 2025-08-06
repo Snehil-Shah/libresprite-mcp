@@ -2,8 +2,6 @@
 JavaScript script templates for common LibreSprite operations.
 """
 
-# FIXME: set_active_layer doesn't work
-
 class ScriptTemplates:
     """
     Generates JavaScript scripts for common LibreSprite operations.
