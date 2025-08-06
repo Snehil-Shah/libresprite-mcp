@@ -2,7 +2,7 @@
 JavaScript script templates for common LibreSprite operations.
 """
 
-# TODO: Fix create_sprite, create_layer
+# FIXME: set_active_layer doesn't work
 
 class ScriptTemplates:
     """
