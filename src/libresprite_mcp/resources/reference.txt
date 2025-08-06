@@ -1,3 +1,273 @@
+# MCP Tools Reference
+
+These are high-level tools available through the MCP server that abstract common LibreSprite operations. Use these for simple, repetitive tasks instead of writing JavaScript manually.
+
+## Tool: create_sprite
+Creates a new sprite with specified dimensions and color mode.
+
+**Parameters:**
+- `width` (int): Width of the sprite in pixels
+- `height` (int): Height of the sprite in pixels  
+- `color_mode` (str): Color mode - "RGB", "INDEXED", "GRAYSCALE" or "BITMAP"
+
+**Returns:** Confirmation message
+
+**Example Usage:**
+```
+create_sprite(width=128, height=128, color_mode="RGB")
+```
+
+## Tool: create_layer
+Adds a new layer to the active sprite.
+
+**Parameters:**
+- `name` (str): Name for the new layer (default: "New Layer")
+
+**Returns:** Confirmation message
+
+**Example Usage:**
+```
+create_layer(name="Character Layer")
+```
+
+## Tool: fill_layer
+Fill the active layer with a solid color.
+
+**Parameters:**
+- `color_r` (int): Red component (0-255)
+- `color_g` (int): Green component (0-255)
+- `color_b` (int): Blue component (0-255)
+- `color_a` (int): Alpha component (0-255, default: 255)
+
+**Returns:** Confirmation message
+
+**Example Usage:**
+```
+fill_layer(color_r=255, color_g=128, color_b=0, color_a=255)
+```
+
+## Tool: draw_circle
+Draw a circle on the active layer.
+
+**Parameters:**
+- `center_x` (int): X coordinate of circle center
+- `center_y` (int): Y coordinate of circle center
+- `radius` (int): Circle radius in pixels
+- `color_r` (int): Red component (0-255)
+- `color_g` (int): Green component (0-255)
+- `color_b` (int): Blue component (0-255)
+- `color_a` (int): Alpha component (0-255, default: 255)
+- `filled` (bool): Whether to fill the circle (default: true)
+
+**Returns:** Confirmation message
+
+**Example Usage:**
+```
+draw_circle(center_x=64, center_y=64, radius=20, color_r=0, color_g=0, color_b=255, color_a=255, filled=true)
+```
+
+## Tool: draw_rectangle
+Draw a rectangle on the active layer.
+
+**Parameters:**
+- `x` (int): Top-left x coordinate
+- `y` (int): Top-left y coordinate
+- `width` (int): Rectangle width
+- `height` (int): Rectangle height
+- `color_r` (int): Red component (0-255)
+- `color_g` (int): Green component (0-255)
+- `color_b` (int): Blue component (0-255)
+- `color_a` (int): Alpha component (0-255)
+- `filled` (bool): Whether to fill the rectangle
+
+**Returns:** Confirmation message
+
+**Example Usage:**
+```
+draw_rectangle(x=10, y=10, width=50, height=30, color_r=255, color_g=0, color_b=0, color_a=255, filled=true)
+```
+
+## Tool: draw_line
+Draw a line on the active layer.
+
+**Parameters:**
+- `x1` (int): Start x coordinate
+- `y1` (int): Start y coordinate
+- `x2` (int): End x coordinate
+- `y2` (int): End y coordinate
+- `color_r` (int): Red component (0-255)
+- `color_g` (int): Green component (0-255)
+- `color_b` (int): Blue component (0-255)
+- `color_a` (int): Alpha component (0-255)
+- `thickness` (int): Line thickness in pixels
+
+**Returns:** Confirmation message
+
+**Example Usage:**
+```
+draw_line(x1=0, y1=0, x2=100, y2=100, color_r=0, color_g=255, color_b=0, color_a=255, thickness=2)
+```
+
+## Tool: draw_ellipse
+Draw an ellipse on the active layer.
+
+**Parameters:**
+- `center_x` (int): Center x coordinate
+- `center_y` (int): Center y coordinate
+- `width` (int): Ellipse width
+- `height` (int): Ellipse height
+- `color_r` (int): Red component (0-255)
+- `color_g` (int): Green component (0-255)
+- `color_b` (int): Blue component (0-255)
+- `color_a` (int): Alpha component (0-255)
+- `filled` (bool): Whether to fill the ellipse
+
+**Returns:** Confirmation message
+
+**Example Usage:**
+```
+draw_ellipse(center_x=64, center_y=64, width=80, height=40, color_r=255, color_g=255, color_b=0, color_a=255, filled=false)
+```
+
+## Tool: put_pixel
+Set a single pixel color.
+
+**Parameters:**
+- `x` (int): X coordinate
+- `y` (int): Y coordinate
+- `color_r` (int): Red component (0-255)
+- `color_g` (int): Green component (0-255)
+- `color_b` (int): Blue component (0-255)
+- `color_a` (int): Alpha component (0-255)
+
+**Returns:** Confirmation message
+
+**Example Usage:**
+```
+put_pixel(x=50, y=50, color_r=255, color_g=0, color_b=0, color_a=255)
+```
+
+## Tool: flood_fill
+Flood fill an area with color.
+
+**Parameters:**
+- `x` (int): X coordinate to start fill
+- `y` (int): Y coordinate to start fill
+- `color_r` (int): Red component (0-255)
+- `color_g` (int): Green component (0-255)
+- `color_b` (int): Blue component (0-255)
+- `color_a` (int): Alpha component (0-255)
+
+**Returns:** Confirmation message with fill count
+
+**Example Usage:**
+```
+flood_fill(x=32, y=32, color_r=0, color_g=0, color_b=255, color_a=255)
+```
+
+## Tool: get_sprite_info
+Get information about the active sprite including dimensions, layers, and frames.
+
+**Parameters:** None
+
+**Returns:** Sprite information and layer details
+
+**Example Usage:**
+```
+get_sprite_info()
+```
+
+## Tool: delete_layer
+Delete a layer.
+
+**Parameters:**
+- `layer_number` (int): Layer index to delete (0-based from bottom)
+
+**Returns:** Confirmation message
+
+**Example Usage:**
+```
+delete_layer(layer_number=2)
+```
+
+## Tool: replace_color
+Replace one color with another throughout the image.
+
+**Parameters:**
+- `old_color_r` (int): Old color red component (0-255)
+- `old_color_g` (int): Old color green component (0-255)
+- `old_color_b` (int): Old color blue component (0-255)
+- `new_color_r` (int): New color red component (0-255)
+- `new_color_g` (int): New color green component (0-255)
+- `new_color_b` (int): New color blue component (0-255)
+- `new_color_a` (int): New color alpha component (0-255)
+
+**Returns:** Confirmation message with replacement count
+
+**Example Usage:**
+```
+replace_color(old_color_r=255, old_color_g=255, old_color_b=255, new_color_r=0, new_color_g=0, new_color_b=255, new_color_a=255)
+```
+
+## Tool: run_script
+Run custom JavaScript code inside LibreSprite for advanced operations.
+
+**Parameters:**
+- `script` (str): The JavaScript code to execute
+
+**Returns:** Console output from the script execution
+
+**Example Usage:**
+```javascript
+script = '''
+const col = app.pixelColor;
+const img = app.activeImage;
+for (let y = 0; y < img.height; y++) {
+    for (let x = 0; x < img.width; x++) {
+        const gray = Math.random() * 255;
+        img.putPixel(x, y, col.rgba(gray, gray, gray, 255));
+    }
+}
+console.log("Random noise applied");
+'''
+run_script(script=script)
+```
+
+## When to Use MCP Tools vs JavaScript
+
+**Use MCP Tools for:**
+- Creating new sprites and layers
+- Simple shape drawing (circles, rectangles, lines, ellipses)
+- Single pixel operations
+- Quick color fills and flood fills
+- Layer deletion
+- Color replacement throughout images
+- Getting sprite information
+- Repetitive, straightforward operations
+- When you need type safety and parameter validation
+
+**Use JavaScript (run_script) for:**
+- Complex pixel manipulation algorithms
+- Custom drawing functions with complex logic
+- Animation frame creation
+- Advanced image processing effects
+- UI dialogs and user interaction
+- Operations requiring loops or complex mathematical calculations
+- When you need access to the full LibreSprite API
+- Complex gradient effects or procedural generation
+- Text rendering with custom fonts
+- Working with specific layers (use `sprite.layer(layerNumber)` to get layer objects)
+- Advanced layer manipulation and reordering
+- Complex selection operations
+
+**Best Practice:** Start with MCP tools for setup and basic operations, then use JavaScript for complex custom logic.
+
+---
+
+# LibreSprite JavaScript API Reference
+
+The following documentation covers the native LibreSprite JavaScript API for advanced scripting when the MCP tools are insufficient.
+
 # [class Sprite]
 ## Properties:
    - `palette`: read-only. Returns the sprite's palette.
