@@ -16,7 +16,7 @@ class ScriptTemplates:
         Args:
             width: Width of the sprite
             height: Height of the sprite
-            color_mode: Color mode (e.g., "RGB", "RGBA")
+            color_mode: Color mode ("RGB", "INDEXED", "GRAYSCALE", "BITMAP")
 
         Returns:
             JavaScript script as a string

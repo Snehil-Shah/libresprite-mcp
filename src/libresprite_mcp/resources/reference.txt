@@ -8,7 +8,7 @@ Creates a new sprite with specified dimensions and color mode.
 **Parameters:**
 - `width` (int): Width of the sprite in pixels
 - `height` (int): Height of the sprite in pixels  
-- `color_mode` (str): Color mode - "RGB", "RGBA", "GRAYSCALE", or "BITMAP"
+- `color_mode` (str): Color mode - "RGB", "INDEXED", "GRAYSCALE" or "BITMAP"
 
 **Returns:** Confirmation message
 
